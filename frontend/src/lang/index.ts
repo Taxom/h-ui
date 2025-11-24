@@ -2,9 +2,11 @@ import { createI18n } from "vue-i18n";
 import { useAppStore } from "@/store/modules/app";
 
 const appStore = useAppStore();
-// 本地语言包
+
+// локальные языковые пакеты
 import enLocale from "./package/en";
 import zhCnLocale from "./package/zh-cn";
+import ruLocale from "./package/ru";
 
 const messages = {
   "zh-cn": {
@@ -13,12 +15,18 @@ const messages = {
   en: {
     ...enLocale,
   },
+  ru: {
+    ...ruLocale,
+  },
 };
 
 const i18n = createI18n({
   legacy: false,
-  locale: appStore.language,
-  messages: messages,
+  // текущее значение из стора, по умолчанию — английский
+  locale: appStore.language || "en",
+  // если перевода нет — падать на английский
+  fallbackLocale: "en",
+  messages,
   globalInjection: true,
 });
 
